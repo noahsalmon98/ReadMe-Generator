@@ -1,13 +1,12 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
-const util = require("util");
+const util = require("node:util");
 const generateMarkdown = require("./utils/generateMarkdown");
 
 
 // TODO: Create an array of questions for user input
-inquirer
-.prompt([
+const questions =[
     {
         type: "input",
         name: "title",
@@ -52,7 +51,8 @@ inquirer
     {
         type: "input",
         name: "test",
-        message: "Please enter any testing protocols used for your project.",
+        message: "What command should be run to run tests?",
+        default: "npm test",
     },
     {
         type: "input",
@@ -79,27 +79,29 @@ inquirer
         name: "repo",
         message: "What is the URL of the GitHub Repo?",
     },
-]);
-then((answers) => {
+];
+
 // TODO: Create a function to write README file
 
-
-// Write the README file
-fs.writeToFile('README.md', readMeData, (err)=> {
+fs.writeToFile('README.md', data, err => {
     if (err) {
         console.error(err);
       } else {
         console.log('README.md file generated successfully!');
       }
     });
-  })
-  .catch((error) => {
-    console.error(error);
-  });
 
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions)
+    .then((response) => 
+    {
+            const readmeData = generateMarkdown(response);
+            writeToFile('README',readmeData);
+
+    })
+}
 
 // Function call to initialize app
 init();
