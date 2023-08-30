@@ -6,7 +6,8 @@ const generateMarkdown = require("./utils/generateMarkdown");
 
 
 // TODO: Create an array of questions for user input
-const questions = [
+inquirer
+.prompt([
     {
         type: "input",
         name: "title",
@@ -78,10 +79,60 @@ const questions = [
         name: "repo",
         message: "What is the URL of the GitHub Repo?",
     },
-];
-
+]);
+then((answers) => {
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+
+//Create README file data
+const readMeData = `
+# ${answers.title}
+
+## Description
+${answers.description}
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Installation
+${answers.installation}
+
+## Usage
+${answers.usage}
+
+## License
+This project is licensed under the ${answers.license} license.
+
+## Contributing
+${answers.contributing}
+
+## Tests
+${answers.tests}
+
+## Questions
+For any questions or concerns, please contact me:
+
+GitHub: [${answers.username}](https://github.com/${answers.username})
+
+Email: ${answers.email}
+`;
+
+fs.writeToFile('README.md', readMeData, (err)=> {
+    if (err) {
+        console.error(err);
+      } else {
+        console.log('README.md file generated successfully!');
+      }
+    });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 
 // TODO: Create a function to initialize app
 function init() {}
