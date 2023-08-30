@@ -121,6 +121,7 @@ GitHub: [${answers.username}](https://github.com/${answers.username})
 Email: ${answers.email}
 `;
 
+// Write the README file
 fs.writeToFile('README.md', readMeData, (err)=> {
     if (err) {
         console.error(err);
